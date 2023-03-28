@@ -1,0 +1,369 @@
+{
+    "id": "test",
+    "totalDuration": 120748,
+    "title": "** TEST: Which profession attracts the worst kinds of people? **",
+    "score": 34311,
+    "upvote_ratio": 0.88,
+    "thread_image": "thread.png",
+    "filePath": "../../inbox/test/audio//000-000-000-title.wav",
+    "duration": 4688,
+    "stories": [
+        {
+            "seq": 0,
+            "fullText": "I’m a casino dealer. People losing money brings out the worst qualities in them. Especially when I deal high limit games. Plus the pit boss/supervisors won’t throw a person out who is literally spending thousands. Doesn’t matter what they do or say. The casino doesn’t want to lose those kinds of patrons. They’re catered to. They can be so awful to the dealers. The job has made me look at humanity in a completely different light lol. Pro relationship tip: Bring a date to the casino and see how they treat the dealer if they’re losing. You’ll see what kind of person they really are. I have about 10 years of experience in the industry.",
+            "fullTextPath": "../../inbox/test/audio//0000-fullText.wav",
+            "jokeText": "",
+            "jokeSSML": "",
+            "jokeImage": "",
+            "filePath": "../../inbox/test/audio//000-0-000-story.wav",
+            "duration": 1403,
+            "ttsSegments": [
+                {
+                    "seq": 0,
+                    "displayTest": "I’m a casino dealer. People losing money brings out",
+                    "text": "I’m a casino dealer. People losing money brings out",
+                    "duration": 3739,
+                    "filePath": "../../inbox/test/audio//0000-0000.wav"
+                },
+                {
+                    "seq": 1,
+                    "displayTest": "the worst qualities in them. Especially when I",
+                    "text": "the worst qualities in them. Especially when I",
+                    "duration": 3146,
+                    "filePath": "../../inbox/test/audio//0000-0001.wav"
+                },
+                {
+                    "seq": 2,
+                    "displayTest": "deal high limit games. Plus the pit",
+                    "text": "deal high limit games. Plus the pit",
+                    "duration": 2873,
+                    "filePath": "../../inbox/test/audio//0000-0002.wav"
+                },
+                {
+                    "seq": 3,
+                    "displayTest": "boss/supervisors won’t throw a person out",
+                    "text": "boss/supervisors won’t throw a person out",
+                    "duration": 2721,
+                    "filePath": "../../inbox/test/audio//0000-0003.wav"
+                },
+                {
+                    "seq": 4,
+                    "displayTest": "who is literally spending thousands. Doesn’t matter what",
+                    "text": "who is literally spending thousands. Doesn’t matter what",
+                    "duration": 3585,
+                    "filePath": "../../inbox/test/audio//0000-0004.wav"
+                },
+                {
+                    "seq": 5,
+                    "displayTest": "they do or say. The casino doesn’t",
+                    "text": "they do or say. The casino doesn’t",
+                    "duration": 2780,
+                    "filePath": "../../inbox/test/audio//0000-0005.wav"
+                },
+                {
+                    "seq": 6,
+                    "displayTest": "want to lose those kinds of",
+                    "text": "want to lose those kinds of",
+                    "duration": 1647,
+                    "filePath": "../../inbox/test/audio//0000-0006.wav"
+                },
+                {
+                    "seq": 7,
+                    "displayTest": "patrons. They’re catered to. They can",
+                    "text": "patrons. They’re catered to. They can",
+                    "duration": 3388,
+                    "filePath": "../../inbox/test/audio//0000-0007.wav"
+                },
+                {
+                    "seq": 8,
+                    "displayTest": "be so awful to the dealers. The job has",
+                    "text": "be so awful to the dealers. The job has",
+                    "duration": 3407,
+                    "filePath": "../../inbox/test/audio//0000-0008.wav"
+                },
+                {
+                    "seq": 9,
+                    "displayTest": "made me look at humanity in",
+                    "text": "made me look at humanity in",
+                    "duration": 1634,
+                    "filePath": "../../inbox/test/audio//0000-0009.wav"
+                },
+                {
+                    "seq": 10,
+                    "displayTest": "a completely different light lol. Pro relationship tip: Bring",
+                    "text": "a completely different light lol. Pro relationship tip: Bring",
+                    "duration": 4435,
+                    "filePath": "../../inbox/test/audio//0000-0010.wav"
+                },
+                {
+                    "seq": 11,
+                    "displayTest": "a date to the casino and see",
+                    "text": "a date to the casino and see",
+                    "duration": 1677,
+                    "filePath": "../../inbox/test/audio//0000-0011.wav"
+                },
+                {
+                    "seq": 12,
+                    "displayTest": "how they treat the dealer if",
+                    "text": "how they treat the dealer if",
+                    "duration": 1549,
+                    "filePath": "../../inbox/test/audio//0000-0012.wav"
+                },
+                {
+                    "seq": 13,
+                    "displayTest": "they’re losing. You’ll see what kind of person",
+                    "text": "they’re losing. You’ll see what kind of person",
+                    "duration": 2845,
+                    "filePath": "../../inbox/test/audio//0000-0013.wav"
+                },
+                {
+                    "seq": 14,
+                    "displayTest": "they really are. I have about 10",
+                    "text": "they really are. I have about 10",
+                    "duration": 2382,
+                    "filePath": "../../inbox/test/audio//0000-0014.wav"
+                },
+                {
+                    "seq": 15,
+                    "displayTest": "years of experience in the industry.",
+                    "text": "years of experience in the industry.",
+                    "filePath": "../../inbox/test/audio//0000-0015.wav",
+                    "duration": 2644
+                }
+            ]
+        },
+        {
+            "seq": 1,
+            "fullText": "Stockbrokers. I have some friends who are stockbrokers. I love them, but man, they are some b s artists. And not like,  Oh, they're a good salesman, and could sell you anything,  No, it's like they make s  up as they go along and try to sound confident in what they say.",
+            "fullTextPath": "../../inbox/test/audio//0001-fullText.wav",
+            "jokeText": "",
+            "jokeSSML": "",
+            "jokeImage": "",
+            "filePath": "../../inbox/test/audio//000-1-000-story.wav",
+            "duration": 1417,
+            "ttsSegments": [
+                {
+                    "seq": 0,
+                    "displayTest": "Stockbrokers. I have some friends who are",
+                    "text": "Stockbrokers. I have some friends who are",
+                    "duration": 3278,
+                    "filePath": "../../inbox/test/audio//0001-0000.wav"
+                },
+                {
+                    "seq": 1,
+                    "displayTest": "stockbrokers. I love them, but man, they are",
+                    "text": "stockbrokers. I love them, but man, they are",
+                    "duration": 3706,
+                    "filePath": "../../inbox/test/audio//0001-0001.wav"
+                },
+                {
+                    "seq": 2,
+                    "displayTest": "some bulls*** artists. And not like,  Oh,",
+                    "text": "some b s artists. And not like,  Oh,",
+                    "duration": 3266,
+                    "filePath": "../../inbox/test/audio//0001-0002.wav"
+                },
+                {
+                    "seq": 3,
+                    "displayTest": "they're a good salesman, and could sell",
+                    "text": "they're a good salesman, and could sell",
+                    "duration": 1982,
+                    "filePath": "../../inbox/test/audio//0001-0003.wav"
+                },
+                {
+                    "seq": 4,
+                    "displayTest": "you anything,  No, it's like they make s*** up",
+                    "text": "you anything,  No, it's like they make s  up",
+                    "duration": 2947,
+                    "filePath": "../../inbox/test/audio//0001-0004.wav"
+                },
+                {
+                    "seq": 5,
+                    "displayTest": "as they go along and try",
+                    "text": "as they go along and try",
+                    "duration": 1447,
+                    "filePath": "../../inbox/test/audio//0001-0005.wav"
+                },
+                {
+                    "seq": 6,
+                    "displayTest": "to sound confident in what they say.",
+                    "text": "to sound confident in what they say.",
+                    "filePath": "../../inbox/test/audio//0001-0006.wav",
+                    "duration": 2723
+                }
+            ]
+        },
+        {
+            "seq": 2,
+            "fullText": "My mum worked in a prison. She said that a lot of the men in there for sex offences against children had/were looking for jobs like driving ice cream vans, dressing as Santa at shopping centres etc as they liked kids sitting on their laps etc. Apparently it's way more common than people would think",
+            "fullTextPath": "../../inbox/test/audio//0002-fullText.wav",
+            "jokeText": "",
+            "jokeSSML": "",
+            "jokeImage": "",
+            "filePath": "../../inbox/test/audio//000-2-000-story.wav",
+            "duration": 1448,
+            "ttsSegments": [
+                {
+                    "seq": 0,
+                    "displayTest": "My mum worked in a prison. She",
+                    "text": "My mum worked in a prison. She",
+                    "duration": 2944,
+                    "filePath": "../../inbox/test/audio//0002-0000.wav"
+                },
+                {
+                    "seq": 1,
+                    "displayTest": "said that a lot of the men in",
+                    "text": "said that a lot of the men in",
+                    "duration": 1490,
+                    "filePath": "../../inbox/test/audio//0002-0001.wav"
+                },
+                {
+                    "seq": 2,
+                    "displayTest": "there for sex offences against children had/were",
+                    "text": "there for sex offences against children had/were",
+                    "duration": 2908,
+                    "filePath": "../../inbox/test/audio//0002-0002.wav"
+                },
+                {
+                    "seq": 3,
+                    "displayTest": "looking for jobs like driving ice",
+                    "text": "looking for jobs like driving ice",
+                    "duration": 2085,
+                    "filePath": "../../inbox/test/audio//0002-0003.wav"
+                },
+                {
+                    "seq": 4,
+                    "displayTest": "cream vans, dressing as Santa at shopping",
+                    "text": "cream vans, dressing as Santa at shopping",
+                    "duration": 2745,
+                    "filePath": "../../inbox/test/audio//0002-0004.wav"
+                },
+                {
+                    "seq": 5,
+                    "displayTest": "centres etc as they liked kids sitting on",
+                    "text": "centres etc as they liked kids sitting on",
+                    "duration": 2678,
+                    "filePath": "../../inbox/test/audio//0002-0005.wav"
+                },
+                {
+                    "seq": 6,
+                    "displayTest": "their laps etc. Apparently it's way more common",
+                    "text": "their laps etc. Apparently it's way more common",
+                    "duration": 3634,
+                    "filePath": "../../inbox/test/audio//0002-0006.wav"
+                },
+                {
+                    "seq": 7,
+                    "displayTest": "than people would think",
+                    "text": "than people would think",
+                    "filePath": "../../inbox/test/audio//0002-0007.wav",
+                    "duration": 1669
+                }
+            ]
+        },
+        {
+            "seq": 3,
+            "fullText": "Hollywood producer it seems. Over and over and over.",
+            "fullTextPath": "../../inbox/test/audio//0003-fullText.wav",
+            "jokeText": "",
+            "jokeSSML": "",
+            "jokeImage": "",
+            "filePath": "../../inbox/test/audio//000-3-000-story.wav",
+            "duration": 1450,
+            "ttsSegments": [
+                {
+                    "seq": 0,
+                    "displayTest": "Hollywood producer it seems. Over and over and over.",
+                    "text": "Hollywood producer it seems. Over and over and over.",
+                    "filePath": "../../inbox/test/audio//0003-0000.wav",
+                    "duration": 4430
+                }
+            ]
+        },
+        {
+            "seq": 4,
+            "fullText": "The executives that run MLMs.",
+            "fullTextPath": "../../inbox/test/audio//0004-fullText.wav",
+            "jokeText": "",
+            "jokeSSML": "",
+            "jokeImage": "",
+            "filePath": "../../inbox/test/audio//000-4-000-story.wav",
+            "duration": 1479,
+            "ttsSegments": [
+                {
+                    "seq": 0,
+                    "displayTest": "The executives that run MLMs.",
+                    "text": "The executives that run MLMs.",
+                    "filePath": "../../inbox/test/audio//0004-0000.wav",
+                    "duration": 2839
+                }
+            ]
+        },
+        {
+            "seq": 5,
+            "fullText": "Ok so not really a profession but… there is a certain subset of musicians who are also wannabe influencers… particular people who are very on twitter. so back-stabby and clout hungry",
+            "fullTextPath": "../../inbox/test/audio//0005-fullText.wav",
+            "jokeText": "",
+            "jokeSSML": "",
+            "jokeImage": "",
+            "filePath": "../../inbox/test/audio//000-5-000-story.wav",
+            "duration": 1589,
+            "ttsSegments": [
+                {
+                    "seq": 0,
+                    "displayTest": "Ok so not really a profession",
+                    "text": "Ok so not really a profession",
+                    "duration": 2240,
+                    "filePath": "../../inbox/test/audio//0005-0000.wav"
+                },
+                {
+                    "seq": 1,
+                    "displayTest": "but… there is a certain subset of",
+                    "text": "but… there is a certain subset of",
+                    "duration": 2155,
+                    "filePath": "../../inbox/test/audio//0005-0001.wav"
+                },
+                {
+                    "seq": 2,
+                    "displayTest": "musicians who are also wannabe influencers… particular people",
+                    "text": "musicians who are also wannabe influencers… particular people",
+                    "duration": 3767,
+                    "filePath": "../../inbox/test/audio//0005-0002.wav"
+                },
+                {
+                    "seq": 3,
+                    "displayTest": "who are very on twitter. so",
+                    "text": "who are very on twitter. so",
+                    "duration": 2380,
+                    "filePath": "../../inbox/test/audio//0005-0003.wav"
+                },
+                {
+                    "seq": 4,
+                    "displayTest": "back-stabby and clout hungry",
+                    "text": "back-stabby and clout hungry",
+                    "filePath": "../../inbox/test/audio//0005-0004.wav",
+                    "duration": 2550
+                }
+            ]
+        },
+        {
+            "seq": 6,
+            "fullText": "Paparazzi",
+            "fullTextPath": "../../inbox/test/audio//0006-fullText.wav",
+            "jokeText": "",
+            "jokeSSML": "",
+            "jokeImage": "",
+            "filePath": "../../inbox/test/audio//000-6-000-story.wav",
+            "duration": 1532,
+            "ttsSegments": [
+                {
+                    "seq": 0,
+                    "displayTest": "Paparazzi",
+                    "text": "Paparazzi",
+                    "filePath": "../../inbox/test/audio//0006-0000.wav",
+                    "duration": 1427
+                }
+            ]
+        }
+    ]
+}

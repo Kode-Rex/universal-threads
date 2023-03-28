@@ -6,10 +6,7 @@
 const inboxDir = "../../inbox";
 process.env.GOOGLE_APPLICATION_CREDENTIALS = "/Users/T-rav/key.json";
 const fs = require('fs');
-<<<<<<< HEAD
 const ffmpeg = require('fluent-ffmpeg');
-=======
->>>>>>> 86f9e62 (added new thread while testing end-2-end)
 
 async function synthesize(input, fileName) {
   const textToSpeech = require('@google-cloud/text-to-speech');
@@ -35,10 +32,6 @@ async function synthesize(input, fileName) {
   // Write the binary audio content to a local file
   const writeFile = util.promisify(fs.writeFile);
   await writeFile(fileName, response.audioContent, 'binary');
-<<<<<<< HEAD
-  
-=======
->>>>>>> 86f9e62 (added new thread while testing end-2-end)
 }
 
 async function synthesizeText(text, fileName){
@@ -60,8 +53,7 @@ function processThreadSegmentsForTTS(thread){
 
     const leadingZeros = 4;
     const dirPath = `${inboxDir}/${thread.id}/audio/`;
-    
-<<<<<<< HEAD
+
     let filePath = `${dirPath}/000-000-000-title.wav`;
     fs.mkdir(dirPath, {recursive:true}, async err=>{
         if(err) throw err;
@@ -125,37 +117,13 @@ function processThreadSegmentsForTTS(thread){
             }
 
             console.log(`updated context to ${fileName}`);
-=======
-    let filePath = `${dirPath}/000-000-000-title.mp3`;
-    fs.mkdir(dirPath, {recursive:true}, async err=>{
-        if(err) throw err;
-        console.log(`Processing ${filePath}`);
-        await synthesizeText(thread.title, filePath);
-
-        thread.stories.forEach(async function(story){
-            let filePath = `${dirPath}/000-${story.seq}-000-story.mp3`;
-            console.log(`Processing ${filePath}`);
-            await synthesizeText(`Story ${story.seq+1}`, filePath);
-    
-            story.ttsSegments.forEach(async function(ttsSnippet){
-                let filePath = `${dirPath}/${padLeadingZeros(story.seq, leadingZeros)}-${padLeadingZeros(ttsSnippet.seq,leadingZeros)}.mp3`
-                if(ttsSnippet.text){
-                    await synthesizeText(ttsSnippet.text, filePath);
-                }                
-            });
->>>>>>> 86f9e62 (added new thread while testing end-2-end)
         });
     });
 }
 
-<<<<<<< HEAD
 const duration = require("wav-audio-length").default;
+const readline = require('readline');
 
-const readline = require('readline');
-const { timeEnd } = require('console');
-=======
-const readline = require('readline');
->>>>>>> 86f9e62 (added new thread while testing end-2-end)
 let r1 = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -192,20 +160,12 @@ r1.question('Which story do you wish to record the speach for: ', function(key){
     let num = parseInt(key);
 
     if(num > 0 && num <= allThreadsInprogress.length){
-<<<<<<< HEAD
         const post = allThreadsInprogress[num-1];
         processThreadSegmentsForTTS(post);
-=======
-        processThreadSegmentsForTTS(allThreadsInprogress[num-1]);
-        // todo : now adjust all the audio to remove leading and trail ' ' that is present when chunking and stringing it together
-        console.log("todo : remove dead space from front and end of clips when strigging together. Or can I do it as a assembling the video together")
-
->>>>>>> 86f9e62 (added new thread while testing end-2-end)
     }else{
         console.log('\x1b[31m','Please make a selection from the topic numbers listed above or q to quit', '\x1b[0m');
     }
 });
-<<<<<<< HEAD
 
 function processDuration(filePath, obj, trimEnd, trimStart) {
     const buffer = fs.readFileSync(filePath);
@@ -240,6 +200,3 @@ function processDuration(filePath, obj, trimEnd, trimStart) {
 
     return obj;
 }
-
-=======
->>>>>>> 86f9e62 (added new thread while testing end-2-end)
