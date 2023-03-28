@@ -11,10 +11,14 @@ const inboxDir = "../../inbox";
 // audio addition ?
 // https://stackoverflow.com/questions/66183650/how-to-add-multiple-audio-to-a-video-at-specific-time-for-specific-duration
 // ------- MERGE AUDIO ------------
+
+const fullAudioFile = `${inboxDir}/test/full-audio.wav`;
+// fs.unlinkSync(fullAudioFile);
+
 const audioCommand = ffmpeg();
 audioCommand.mergeAdd(`${inboxDir}/test/audio/000-0-000-story.wav`)
             .mergeAdd(`${inboxDir}/test/audio/0000-fullText.wav`)
-            .mergeToFile(`${inboxDir}/test/full-audio.wav`);
+            .mergeToFile(fullAudioFile);
 
 
 // todo : cobine audio into a single file, the add as source and set text filters to draw on
@@ -37,7 +41,7 @@ command.videoFilters([{
     box:1,
     boxcolor:'blue@0.75',
     boxborderw:15,
-    enable:'between(t,0.1,1.4)'
+    enable:'between(t,0,1.4)'
   }
 },{
     filter: 'drawtext',
@@ -59,13 +63,13 @@ command.videoFilters([{
       fontfile:'/vagrant/fonts/LucidaGrande.ttc',
       text: 'the worst qualities in them.\nEspecially when I',
       fontsize: 90,
-      fontcolor: 'blue',
+      fontcolor: 'white',
       x: '(main_w/2-text_w/2)',
       y: '((main_h-text_h)/2)',
       shadowcolor: 'black',
       shadowx: 2,
       shadowy: 2,
-      enable:'between(t,5.2,8.5)'
+      enable:'between(t,5.2,8.3)'
     }
   },
   {
@@ -74,13 +78,13 @@ command.videoFilters([{
       fontfile:'/vagrant/fonts/LucidaGrande.ttc',
       text: 'deal high limit games. Plus the pit',
       fontsize: 90,
-      fontcolor: 'blue',
+      fontcolor: 'white',
       x: '(main_w/2-text_w/2)',
       y: '((main_h-text_h)/2)',
       shadowcolor: 'black',
       shadowx: 2,
       shadowy: 2,
-      enable:'between(t,8.6,11.5)'
+      enable:'between(t,8.4,11.2)'
     }
   }])
   .addInput(`${inboxDir}/test/full-audio.wav`)
