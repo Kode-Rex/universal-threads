@@ -25,7 +25,22 @@ command.videoFilters({
     box:1,
     enable:'between(t,0,5)'
   }
-}).saveToFile(`${inboxDir}/test/composed-test.mp4`);
+}).videoFilters({
+    filter: 'drawtext',
+    options: {
+      fontfile:'/vagrant/fonts/LucidaGrande.ttc',
+      text: 'THIS IS TEXT THAT I AM TESTING WITH',
+      fontsize: 72,
+      fontcolor: 'blue',
+      x: '(main_w/2-text_w/2)',
+      y: '((main_h-text_h)/2)',
+      shadowcolor: 'black',
+      shadowx: 2,
+      shadowy: 2,
+      enable:'between(t,5,20)'
+    }
+  })
+.saveToFile(`${inboxDir}/test/composed-test.mp4`);
 
 
 // story text
