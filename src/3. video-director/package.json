@@ -1,0 +1,19 @@
+{
+  "name": "video-director",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "detect-file-type": "^0.2.8",
+    "fluent-ffmpeg": "^2.1.2",
+    "get-audio-duration": "^3.1.1",
+    "get-mp3-duration": "^1.0.0",
+    "mime-types": "^2.1.35",
+    "mp3-duration": "^1.1.0"
+  }
+}

@@ -1,0 +1,4 @@
+place all phase 1 artifacts here for processing
+
+all work should be saved to a sqlite DB. Each job should be a unique DB to that process, this avoids nasty merge issues with lost data. By naming convention is how things will hang.
+
