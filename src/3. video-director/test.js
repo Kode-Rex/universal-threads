@@ -4,14 +4,9 @@ const ffmpeg = require('fluent-ffmpeg');
 
 const inboxDir = "../../inbox";
 
-// todo : seed all the fun stuff here to get a working sample 
+// todo : compose video clips into a single video for processing?
 
-
-
-// audio addition ?
-// https://stackoverflow.com/questions/66183650/how-to-add-multiple-audio-to-a-video-at-specific-time-for-specific-duration
 // ------- MERGE AUDIO ------------
-
 const fullAudioFile = `${inboxDir}/test/full-audio.wav`;
 fs.unlinkSync(fullAudioFile);
 
