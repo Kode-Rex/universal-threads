@@ -8,6 +8,10 @@ const inboxDir = "../../inbox";
 
 const command = ffmpeg(`${inboxDir}/test/02-snowboard.mp4`);
 
+// audio addition ?
+// https://stackoverflow.com/questions/66183650/how-to-add-multiple-audio-to-a-video-at-specific-time-for-specific-duration
+// -----------------------------------------
+
 // story title - 
 //     enable:between(t,1,5)
 command.videoFilters({
@@ -16,13 +20,15 @@ command.videoFilters({
     fontfile:'/vagrant/fonts/LucidaGrande.ttc',
     text: 'Story 1',
     fontsize: 72,
-    fontcolor: 'white',
+    fontcolor: 'black',
     x: '(main_w/2-text_w/2)',
     y: 50,
-    shadowcolor: 'black',
+    shadowcolor: 'white',
     shadowx: 2,
     shadowy: 2,
     box:1,
+    boxcolor:'blue@0.75',
+    boxborderw:15,
     enable:'between(t,0,5)'
   }
 }).videoFilters({
