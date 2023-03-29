@@ -19,8 +19,7 @@ context.stories.forEach((val, idx)=>{
     audioCommand.mergeAdd(val.filePath); // story #
 
     // pushing story # text
-    // not sure if 0.25 is needed per every story text?
-    let betweenText = `between(t,${filterStart+0.25},${filterStart+0.25+(val.duration/1000)})`
+    let betweenText = `between(t,${filterStart+0.25},${filterStart+(val.duration/1000)})`
     textFilters.push({
         filter: 'drawtext',
         options: {
@@ -43,7 +42,6 @@ context.stories.forEach((val, idx)=>{
     filterStart += ((val.duration/1000));
     audioCommand.mergeAdd(val.fullTextPath); // story text
 
-    // this tends to slip by about .1 per clip?
     val.ttsSegments.forEach((tts)=>{
         betweenText = `between(t,${filterStart},${filterStart+(tts.duration/1000)})`
         textFilters.push({
