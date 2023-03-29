@@ -10,7 +10,7 @@ const fontPath = `${inboxDir}/test/BebasNeue-Regular.ttf`
 const context = JSON.parse(fs.readFileSync(`${inboxDir}/test/context.json`));
 
 const textFilters = [];
-let filterStart = context.duration / 1000; // allow for image to show in intro
+let filterStart = (context.duration / 1000)+0.25; // allow for image to show in intro
 // title, then each story's full text
 const audioCommand = ffmpeg();
 const fullAudioFile = `${inboxDir}/test/full-audio.wav`;
@@ -41,26 +41,25 @@ context.stories.forEach((val, idx)=>{
     
     filterStart += ((val.duration/1000)); // 10 ms added to buffer start-stops
     audioCommand.mergeAdd(val.fullTextPath); // story text
-    // val.ttsSegments.forEach((tts, idx)=>{
-    //     betweenText = `between(t,${filterStart},${filterStart+(val.duration)})`
-    //     textFilters.push({
-    //         filter: 'drawtext',
-    //         options: {
-    //                 fontfile: fontPath,
-    //                 text: tts.displayTest,
-    //                 fontsize: 90,
-    //                 fontcolor: 'white',
-    //                 x: '(main_w/2-text_w/2)',
-    //                 y: '((main_h-text_h)/2)',
-    //                 shadowcolor: 'black',
-    //                 shadowx: 2,
-    //                 shadowy: 2,
-    //                 box:1,
-    //                 enable:betweenText
-    //             }
-    //     });
-    //     filterStart += tts.duration+100; // 10 ms added to buffer start-stops
-    // });
+    val.ttsSegments.forEach((tts)=>{
+        betweenText = `between(t,${filterStart},${filterStart+(tts.duration/1000)})`
+        textFilters.push({
+            filter: 'drawtext',
+            options: {
+                    fontfile: fontPath,
+                    text: tts.displayTest,
+                    fontsize: 90,
+                    fontcolor: 'white',
+                    x: '(main_w/2-text_w/2)',
+                    y: '((main_h-text_h)/2)',
+                    shadowcolor: 'black',
+                    shadowx: 2,
+                    shadowy: 2,
+                    enable:betweenText
+                }
+        });
+        filterStart += tts.duration/1000; // 10 ms added to buffer start-stops
+    });
 
     
     // todo  I almost want to build up the filters array too?
@@ -75,8 +74,8 @@ audioCommand.mergeToFile(fullAudioFile).on('end',()=>{
                 const command = ffmpeg();
                 command.input(`${inboxDir}/test/06-pro-shredder.mp4`); //.input(`${inboxDir}/test/thread.png`);
 
-                //command.videoFilters(textFilters)
-                command.videoFilters(textFilters)
+                // seems to be a max size on items (like about 15ish). Might need to encode in batches to keep things happy.
+                command.videoFilters(textFilters.splice(0,10)) 
                 .addInput(`${inboxDir}/test/full-audio.wav`)
                 .saveToFile(`${inboxDir}/test/composed-test.mp4`);
                 // tell it to overlay the image 
