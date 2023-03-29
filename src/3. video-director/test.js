@@ -10,7 +10,7 @@ const fontPath = `${inboxDir}/test/BebasNeue-Regular.ttf`
 const context = JSON.parse(fs.readFileSync(`${inboxDir}/test/context.json`));
 
 const textFilters = [];
-let filterStart = (context.duration / 1000)+0.25; // allow for image to show in intro
+let filterStart = (context.duration / 1000); // allow for image to show in intro
 // title, then each story's full text
 const audioCommand = ffmpeg();
 const fullAudioFile = `${inboxDir}/test/full-audio.wav`;
@@ -19,7 +19,8 @@ context.stories.forEach((val, idx)=>{
     audioCommand.mergeAdd(val.filePath); // story #
 
     // pushing story # text
-    let betweenText = `between(t,${filterStart},${filterStart+(val.duration/1000)})`
+    // not sure if 0.25 is needed per every story text?
+    let betweenText = `between(t,${filterStart+0.25},${filterStart+0.25+(val.duration/1000)})`
     textFilters.push({
         filter: 'drawtext',
         options: {
@@ -39,8 +40,10 @@ context.stories.forEach((val, idx)=>{
             }
         });
     
-    filterStart += ((val.duration/1000)); // 10 ms added to buffer start-stops
+    filterStart += ((val.duration/1000));
     audioCommand.mergeAdd(val.fullTextPath); // story text
+
+    // this tends to slip by about .1 per clip?
     val.ttsSegments.forEach((tts)=>{
         betweenText = `between(t,${filterStart},${filterStart+(tts.duration/1000)})`
         textFilters.push({
@@ -48,7 +51,7 @@ context.stories.forEach((val, idx)=>{
             options: {
                     fontfile: fontPath,
                     text: tts.displayTest,
-                    fontsize: 90,
+                    fontsize: 72,
                     fontcolor: 'white',
                     x: '(main_w/2-text_w/2)',
                     y: '((main_h-text_h)/2)',
@@ -58,14 +61,9 @@ context.stories.forEach((val, idx)=>{
                     enable:betweenText
                 }
         });
-        filterStart += tts.duration/1000; // 10 ms added to buffer start-stops
+        filterStart += tts.duration/1000;
     });
-
-    
-    // todo  I almost want to build up the filters array too?
 });
-
-console.log(JSON.stringify(textFilters));
 
 audioCommand.mergeToFile(fullAudioFile).on('end',()=>{
     // process the text
@@ -74,8 +72,9 @@ audioCommand.mergeToFile(fullAudioFile).on('end',()=>{
                 const command = ffmpeg();
                 command.input(`${inboxDir}/test/06-pro-shredder.mp4`); //.input(`${inboxDir}/test/thread.png`);
 
-                // seems to be a max size on items (like about 15ish). Might need to encode in batches to keep things happy.
-                command.videoFilters(textFilters.splice(0,10)) 
+                // seems to be a max size on items (like about 12ish). Might need to encode in batches to keep things happy.
+                // that is the case - write out filters to file (resume?), then loop through the merged file applying filters
+                command.videoFilters(textFilters.slice(0,11)) 
                 .addInput(`${inboxDir}/test/full-audio.wav`)
                 .saveToFile(`${inboxDir}/test/composed-test.mp4`);
                 // tell it to overlay the image 

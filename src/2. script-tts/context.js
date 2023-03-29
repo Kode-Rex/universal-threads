@@ -170,8 +170,8 @@ r1.question('Which story do you wish to record the speach for: ', function(key){
 function processDuration(filePath, obj, trimEnd, trimStart) {
     const buffer = fs.readFileSync(filePath);
     const dur = parseInt(duration(buffer)*1000); // ms
-    const cutAmtStart = 274; // ms
-    const cutAmtEnd = 395; // ms 
+    const cutAmtStart = 325; // ms
+    const cutAmtEnd = 425; // ms 
     const tmpExt = 'new.wav';
     obj.filePath = filePath;
 
