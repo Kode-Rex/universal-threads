@@ -3,23 +3,30 @@ const fs = require('fs');
 const ffmpeg = require('fluent-ffmpeg');
 
 const inboxDir = "../../inbox";
-
+const fontPath = `${inboxDir}/test/BebasNeue-Regular.ttf`
 // todo : compose video clips into a single video for processing?
 
 // ------- MERGE AUDIO ------------
-const fullAudioFile = `${inboxDir}/test/full-audio.wav`;
-fs.unlinkSync(fullAudioFile);
+const context = JSON.parse(fs.readFileSync(`${inboxDir}/test/context.json`));
 
+// title, then each story's full text
 const audioCommand = ffmpeg();
-audioCommand.mergeAdd(`${inboxDir}/test/audio/000-0-000-story.wav`)
-            .mergeAdd(`${inboxDir}/test/audio/0000-fullText.wav`)
-            .mergeToFile(fullAudioFile).on('end', ()=>{
-                // -------- SET TEXT AND ADD AUDIO TRACK ---------
-                const command = ffmpeg(`${inboxDir}/test/02-snowboard.mp4`);
+const fullAudioFile = `${inboxDir}/test/full-audio.wav`;
+audioCommand.mergeAdd(context.filePath);
+context.stories.forEach((val, idx)=>{
+    audioCommand.mergeAdd(val.filePath); // story #
+    audioCommand.mergeAdd(val.fullTextPath); // story text
+});
+
+audioCommand.mergeToFile(fullAudioFile).on('end',()=>{
+    // process the text
+     // -------- SET TEXT AND ADD AUDIO TRACK ---------
+                // todo : write options to file so they can be tweaked ?
+                const command = ffmpeg(`${inboxDir}/test/06-pro-shredder.mp4`);
                 command.videoFilters([{
                 filter: 'drawtext',
                 options: {
-                    fontfile:'/vagrant/fonts/LucidaGrande.ttc',
+                    fontfile: fontPath,
                     text: 'Story 1',
                     fontsize: 72,
                     fontcolor: 'white',
@@ -30,13 +37,13 @@ audioCommand.mergeAdd(`${inboxDir}/test/audio/000-0-000-story.wav`)
                     shadowy: 2,
                     box:1,
                     boxcolor:'blue@0.75',
-                    boxborderw:15,
+                    boxborderw:10,
                     enable:'between(t,0,1.4)'
                 }
                 },{
                     filter: 'drawtext',
                     options: {
-                    fontfile:'/vagrant/fonts/LucidaGrande.ttc',
+                    fontfile:fontPath,
                     text: 'I’m a casino dealer.\nPeople losing money brings out',
                     fontsize: 90,
                     fontcolor: 'white',
@@ -50,7 +57,7 @@ audioCommand.mergeAdd(`${inboxDir}/test/audio/000-0-000-story.wav`)
                 },{
                     filter: 'drawtext',
                     options: {
-                    fontfile:'/vagrant/fonts/LucidaGrande.ttc',
+                    fontfile:fontPath,
                     text: 'the worst qualities in them.\nEspecially when I',
                     fontsize: 90,
                     fontcolor: 'white',
@@ -65,7 +72,7 @@ audioCommand.mergeAdd(`${inboxDir}/test/audio/000-0-000-story.wav`)
                 {
                     filter: 'drawtext',
                     options: {
-                    fontfile:'/vagrant/fonts/LucidaGrande.ttc',
+                    fontfile:fontPath,
                     text: 'deal high limit games. Plus the pit',
                     fontsize: 90,
                     fontcolor: 'white',
@@ -79,9 +86,7 @@ audioCommand.mergeAdd(`${inboxDir}/test/audio/000-0-000-story.wav`)
                 }])
                 .addInput(`${inboxDir}/test/full-audio.wav`)
                 .saveToFile(`${inboxDir}/test/composed-test.mp4`);
-            });
-
-
+});
 
 // todo : cobine audio into a single file, the add as source and set text filters to draw on
 // can pass a list of filters to videoFilters

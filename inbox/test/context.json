@@ -345,25 +345,6 @@
                     "duration": 2550
                 }
             ]
-        },
-        {
-            "seq": 6,
-            "fullText": "Paparazzi",
-            "fullTextPath": "../../inbox/test/audio//0006-fullText.wav",
-            "jokeText": "",
-            "jokeSSML": "",
-            "jokeImage": "",
-            "filePath": "../../inbox/test/audio//000-6-000-story.wav",
-            "duration": 1532,
-            "ttsSegments": [
-                {
-                    "seq": 0,
-                    "displayTest": "Paparazzi",
-                    "text": "Paparazzi",
-                    "filePath": "../../inbox/test/audio//0006-0000.wav",
-                    "duration": 1427
-                }
-            ]
         }
     ]
 }
