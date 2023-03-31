@@ -23,7 +23,8 @@ context.stories.forEach((val, idx)=>{
     const codec = `-codec:a copy`; // -codec:v libx264 -crf 18 -preset slow -vf
     // pushing story # text
     let betweenText = `between(t,${filterStart+0.25},${filterStart+(val.duration/1000)})`
-    textFilters.push(`ffmpeg -i composed-test-${fileCounter}.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='Story ${val.seq+1}':fontcolor=white:fontsize=72:box=1:boxcolor=blue@0.75:boxborderw=10:x=(main_w/2-text_w/2):y=50:enable='${betweenText}'" ${codec} composed-test-${fileCounter}.mp4`);
+    textFilters.push(`ffmpeg -i composed-test-${fileCounter}.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='Story ${val.seq+1}':fontcolor=white:fontsize=72:box=1:boxcolor=blue@0.75:boxborderw=10:x=(main_w/2-text_w/2):y=50:enable='${betweenText}'" ${codec} composed-test-${fileCounter+1}.mp4`);
+    fileCounter++;
     // textFilters.push({
     //     filter: 'drawtext',
     //     options: {
