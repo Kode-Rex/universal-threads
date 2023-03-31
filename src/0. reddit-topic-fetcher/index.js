@@ -145,7 +145,6 @@ function processSelection(num, posts){
                 const story = {
                     seq: storySeq,
                     fullText:generateAudioText(comment.body.split(' ')),
-                    fullTextPath : '',
                     filePath: '',
                     duration: 0,
                     ttsSegments: []
@@ -163,7 +162,6 @@ function processSelection(num, posts){
                         displayText: generateDisplayText(segments.slice(skipAmount, (segmentSize+skipAmount))),
                         text: generateAudioText(segments.slice(skipAmount, (segmentSize+skipAmount))),
                         duration: 0,
-                        filePath: ''
                     }
                     story.ttsSegments.push(segment);
 
@@ -177,7 +175,6 @@ function processSelection(num, posts){
                     seq:ttsSeq,
                     displayText: generateDisplayText(segments.slice(skipAmount, (segmentSize+skipAmount))),
                     text: generateAudioText(segments.slice(skipAmount, (segmentSize+skipAmount))),
-                    filePath: '',
                     duration: 0,
                 });
 
@@ -194,7 +191,10 @@ function processSelection(num, posts){
                 fs.writeFile(fileName, JSON.stringify(context), err => {
                     if(err){
                         console.error(err);
+                    }else{
+                        console.log("Wrote file to " + fileName)
                     }
+                    
                 });
             });
 }

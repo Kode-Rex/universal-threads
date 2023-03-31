@@ -15,7 +15,10 @@ const audioCommand = ffmpeg();
 const fullAudioFile = `${inboxDir}/test/audio/full-audio.wav`;
 let fileCounter = 0;
 
+console.log("START >> " + context.filePath);
+
 audioCommand.mergeAdd(context.filePath);
+
 context.stories.forEach((val, idx)=>{
     audioCommand.mergeAdd(val.filePath); // story #
 
