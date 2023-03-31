@@ -47,10 +47,14 @@ context.stories.forEach((val, idx)=>{
     filterStart += ((val.duration/1000));
     audioCommand.mergeAdd(val.fullTextPath); // story text
 
+
+    // centering text with multiple draw text instances - I should be able to chain all the tts segments with this to bring down processing times
+    // ffmpeg -f lavfi -i color=c=green:s=320x240:d=10 -vf "drawtext=fontfile=/path/to/font.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h-text_h-text_h)/2:text='Stack',drawtext=fontfile=/path/to/font.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h+text_h)/2:text='Overflow'" output.mp4
+    
     // there is a like 25 ms drift per fragement
     val.ttsSegments.forEach((tts, idx)=>{
         betweenText = `between(t,${filterStart},${filterStart+(tts.duration/1000)})`
-        textFilters.push(`ffmpeg -i composed-test-${fileCounter}.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='${tts.displayTest}':shadowcolor='black':shadowx=2:shadowy=2:fontcolor=white:fontsize=72:x=(main_w/2-text_w/2):y=((main_h-text_h)/2):enable='${betweenText}'" ${codec} composed-test-${fileCounter+1}.mp4`);
+        textFilters.push(`ffmpeg -i composed-test-${fileCounter}.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='${tts.displayTest.replace(/:/g, '').replace(/'/g,' ')}':shadowcolor='black':shadowx=2:shadowy=2:fontcolor=white:fontsize=72:x=(main_w/2-text_w/2):y=((main_h-text_h)/2):enable='${betweenText}'" ${codec} composed-test-${fileCounter+1}.mp4`);
         // textFilters.push({
         //     filter: 'drawtext',
         //     options: {
