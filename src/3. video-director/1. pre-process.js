@@ -15,17 +15,19 @@ const audioCommand = ffmpeg();
 const fullAudioFile = `${inboxDir}/test/audio/full-audio.wav`;
 let fileCounter = 0;
 
-console.log("START >> " + context.filePath);
+console.log("START >> ");
 
 audioCommand.mergeAdd(context.filePath);
 
 context.stories.forEach((val, idx)=>{
-    audioCommand.mergeAdd(val.filePath); // story #
+    console.log(`Story [${idx}]`);
+
+
+    audioCommand.mergeAdd(val.storyFilePath); // story #
 
     // todo: use -codec:a copy - for preview mode instead of -codec:v libx264 -crf 0 -preset veryslow
     const codec = `-codec:a copy`; // -codec:v libx264 -crf 18 -preset slow -vf
     // pushing story # text
-    console.log("story...");
     let betweenText = `between(t,${filterStart+0.25},${filterStart+(val.duration/1000)})`
     textFilters.push(`ffmpeg -i video/composed-test-${fileCounter}.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='Story ${val.seq+1}':fontcolor=white:fontsize=72:box=1:boxcolor=blue@0.75:boxborderw=10:x=(main_w/2-text_w/2):y=50:enable='${betweenText}'" ${codec} video/composed-test-${fileCounter+1}.mp4`);
     fileCounter++;
@@ -49,15 +51,15 @@ context.stories.forEach((val, idx)=>{
     //     });
     
     filterStart += ((val.duration/1000));
-    audioCommand.mergeAdd(val.fullTextPath); // story text
+    audioCommand.mergeAdd(val.filePath); // story text
 
 
     // centering text with multiple draw text instances - I should be able to chain all the tts segments with this to bring down processing times
     // ffmpeg -f lavfi -i color=c=green:s=320x240:d=10 -vf "drawtext=fontfile=/path/to/font.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h-text_h-text_h)/2:text='Stack',drawtext=fontfile=/path/to/font.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h+text_h)/2:text='Overflow'" output.mp4
     
     // there is a like 25 ms drift per fragement
-    console.log("tts segment...");
     val.ttsSegments.forEach((tts, idx)=>{
+        console.log(`tts segment [${idx}]`);
         betweenText = `between(t,${filterStart},${filterStart+(tts.duration/1000)})`
         textFilters.push(`ffmpeg -i video/composed-test-${fileCounter}.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='${tts.displayText.replace(/:/g, '').replace(/'/g,' ')}':shadowcolor='black':shadowx=2:shadowy=2:fontcolor=white:fontsize=72:x=(main_w/2-text_w/2):y=((main_h-text_h)/2):enable='${betweenText}'" ${codec} video/composed-test-${fileCounter+1}.mp4`);
         // textFilters.push({
@@ -85,6 +87,8 @@ context.stories.forEach((val, idx)=>{
 // raw drawText input to ffmpeg
 // ffmpeg -i inputClip.mp4 -vf "drawtext=text='My text starting at 640x360':x=640:y=360:fontsize=24:fontcolor=white" -c:a copy output.mp4
 
+console.log('merging to file...');
+
 audioCommand.mergeToFile(fullAudioFile).on('end',()=>{
     // process the text
     
@@ -107,12 +111,17 @@ audioCommand.mergeToFile(fullAudioFile).on('end',()=>{
 
     // todo : create a memory stream with base video, process filters on it 
     // then save once all fitlers have been applied
-    fs.mkdirSync(`${inboxDir}/test/video/`);
+    try{
+        fs.mkdirSync(`${inboxDir}/test/video/`);
+    }catch(e){}
 
     command
     .addInput(`${inboxDir}/test/audio/full-audio.wav`)
     .saveToFile(`${inboxDir}/test/video/composed-test-0.mp4`)
     .on('end', ()=> {
+        // todo : now I need to send this to stt service to get word timeings
+        // todo : then take those word timings and insert into the duration portion of the context to rebuild the video
+        
         console.log('done with phase 1');
     });
 
