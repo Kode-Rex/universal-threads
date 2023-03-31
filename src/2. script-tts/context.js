@@ -48,7 +48,7 @@ function padLeadingZeros(num, size) {
     return num;
 }
 
-function processThreadSegmentsForTTS(thread){
+function processThreadStories(thread){
     console.log('\x1b[33m%s\x1b[0m', `${thread.title}`, '\x1b[0m', ' has been selected.');
 
     const leadingZeros = 4;
@@ -57,55 +57,44 @@ function processThreadSegmentsForTTS(thread){
     let filePath = `${dirPath}/000-000-000-title.wav`;
     fs.mkdir(dirPath, {recursive:true}, async err=>{
         if(err) throw err;
-        await synthesizeText(thread.title, filePath);
 
-        thread = processDuration(filePath, thread, false, false);
+        await synthesizeText(thread.title, filePath);
 
         for(var storyIdx = 0; storyIdx < thread.stories.length; storyIdx++){
             let story = thread.stories[storyIdx];
             let filePath = `${dirPath}/000-${story.seq}-000-story.wav`;
-            await synthesizeText(`Story ${story.seq+1}`, filePath);
 
             console.log(`Processing Story #${story.seq+1} ...`);
+            await synthesizeText(`Story ${story.seq+1}`, filePath);
 
-            story = processDuration(filePath, story, false, false);
             let storyFilePath = `${dirPath}/${padLeadingZeros(story.seq, leadingZeros)}-fullText.wav`
-            await synthesizeText(story.fullText, storyFilePath);
+            await synthesizeText(story.fullText + "...", storyFilePath);
             story.fullTextPath = storyFilePath;
 
-            for(var ttsIdx = 0; ttsIdx < story.ttsSegments.length; ttsIdx++){
-                let ttsSnippet = story.ttsSegments[ttsIdx];
-                let filePath = `${dirPath}/${padLeadingZeros(story.seq, leadingZeros)}-${padLeadingZeros(ttsSnippet.seq,leadingZeros)}.wav`
+            // for(var ttsIdx = 0; ttsIdx < story.ttsSegments.length; ttsIdx++){
+            //     let ttsSnippet = story.ttsSegments[ttsIdx];
+            //     let filePath = `${dirPath}/${padLeadingZeros(story.seq, leadingZeros)}-${padLeadingZeros(ttsSnippet.seq,leadingZeros)}.wav`
                 
-                if(ttsSnippet.text){
-                    await synthesizeText(ttsSnippet.text, filePath);
+            //     if(ttsSnippet.text){
+            //         await synthesizeText(ttsSnippet.text, filePath);
 
-                    let trimEnd = false;
-                    let trimStart = false;
+            //         let trimEnd = false;
+            //         let trimStart = false;
 
-                    if(ttsIdx < (story.ttsSegments.length - 1) ){
-                        trimEnd = true;
-                    }
+            //         if(ttsIdx < (story.ttsSegments.length - 1) ){
+            //             trimEnd = true;
+            //         }
 
-                    if(ttsIdx > 0){
-                        trimStart = true;
-                    }
+            //         if(ttsIdx > 0){
+            //             trimStart = true;
+            //         }
 
-                    ttsSnippet = processDuration(filePath, ttsSnippet, trimEnd, trimStart);
-                } 
-                story.ttsSegments[ttsIdx] = ttsSnippet;  
-            }
+            //         ttsSnippet = processDuration(filePath, ttsSnippet, trimEnd, trimStart);
+            //     } 
+            //     story.ttsSegments[ttsIdx] = ttsSnippet;  
+            // }
             thread.stories[storyIdx] = story;
         }
-
-        // set totalDuration
-        const threadTotalDuration = thread.duration 
-                                    + thread.stories.map((story)=>{
-                                                                    return story.duration 
-                                                                           + story.ttsSegments.map((segment)=>{return segment.duration}).reduce((partialSum, a)=> partialSum+a, 0) 
-                                                                  })
-                                                    .reduce((partialSum, a) => partialSum+a, 0);
-        thread.totalDuration = threadTotalDuration;
 
         // write the fileout
         const contextDirPath = `../../inbox/${thread.id}`;
@@ -161,42 +150,8 @@ r1.question('Which story do you wish to record the speach for: ', function(key){
 
     if(num > 0 && num <= allThreadsInprogress.length){
         const post = allThreadsInprogress[num-1];
-        processThreadSegmentsForTTS(post);
+        processThreadStories(post);
     }else{
         console.log('\x1b[31m','Please make a selection from the topic numbers listed above or q to quit', '\x1b[0m');
     }
 });
-
-function processDuration(filePath, obj, trimEnd, trimStart) {
-    const buffer = fs.readFileSync(filePath);
-    const dur = parseInt(duration(buffer)*1000); // ms
-    const cutAmtStart = 325; // ms
-    const cutAmtEnd = 425; // ms 
-    const tmpExt = 'new.wav';
-    obj.filePath = filePath;
-
-    if(trimEnd){
-        const command = ffmpeg(filePath);
-
-        if(!trimStart){
-            obj.duration = (dur - cutAmtEnd);
-            command.setDuration(`${obj.duration}ms`)
-            .saveToFile(`${filePath}.${tmpExt}`)
-            .on('end', function(){
-                fs.renameSync(`${filePath}.${tmpExt}`, filePath);  
-            });
-        }else{
-            obj.duration = (dur - (cutAmtStart+cutAmtEnd));
-            command.setStartTime(`${cutAmtStart}ms`)
-            .setDuration(`${obj.duration}ms`)
-            .saveToFile(`${filePath}.${tmpExt}`)
-            .on('end', function(){
-                fs.renameSync(`${filePath}.${tmpExt}`, filePath);  
-            });
-        }
-    }else{
-        obj.duration = dur;
-    }
-
-    return obj;
-}

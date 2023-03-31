@@ -146,9 +146,6 @@ function processSelection(num, posts){
                     seq: storySeq,
                     fullText:generateAudioText(comment.body.split(' ')),
                     fullTextPath : '',
-                    jokeText: '',
-                    jokeSSML: '',
-                    jokeImage: '',
                     filePath: '',
                     duration: 0,
                     ttsSegments: []
