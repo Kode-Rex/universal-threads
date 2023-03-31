@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/speech": "^5.4.0",
     "@google-cloud/text-to-speech": "^4.2.1",
     "fluent-ffmpeg": "^2.1.2",
     "get-mp3-duration": "^1.0.0",
