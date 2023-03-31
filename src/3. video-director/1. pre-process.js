@@ -13,14 +13,17 @@ let filterStart = (context.duration / 1000); // allow for image to show in intro
 // title, then each story's full text
 const audioCommand = ffmpeg();
 const fullAudioFile = `${inboxDir}/test/full-audio.wav`;
-let tmpCounter = 0;
+let fileCounter = 0;
+
 audioCommand.mergeAdd(context.filePath);
 context.stories.forEach((val, idx)=>{
     audioCommand.mergeAdd(val.filePath); // story #
 
+    // todo: use -codec:a copy - for preview mode instead of -codec:v libx264 -crf 0 -preset veryslow
+    const codec = `-codec:a copy`; // -codec:v libx264 -crf 18 -preset slow -vf
     // pushing story # text
     let betweenText = `between(t,${filterStart+0.25},${filterStart+(val.duration/1000)})`
-    textFilters.push(`ffmpeg -i composed-test.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='Story ${val.seq+1}':fontcolor=white:fontsize=72:box=1:boxcolor=blue@0.75:boxborderw=10:x=(main_w/2-text_w/2):y=50:enable='${betweenText}'" -codec:a copy composed-test-${tmpCounter}.mp4`);
+    textFilters.push(`ffmpeg -i composed-test-${fileCounter}.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='Story ${val.seq+1}':fontcolor=white:fontsize=72:box=1:boxcolor=blue@0.75:boxborderw=10:x=(main_w/2-text_w/2):y=50:enable='${betweenText}'" ${codec} composed-test-${fileCounter}.mp4`);
     // textFilters.push({
     //     filter: 'drawtext',
     //     options: {
@@ -46,7 +49,7 @@ context.stories.forEach((val, idx)=>{
     // there is a like 25 ms drift per fragement
     val.ttsSegments.forEach((tts, idx)=>{
         betweenText = `between(t,${filterStart},${filterStart+(tts.duration/1000)})`
-        textFilters.push(`ffmpeg -i composed-test-${tmpCounter}.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='${tts.displayTest}':shadowcolor='black':shadowx=2:shadowy=2:fontcolor=white:fontsize=72:x=(main_w/2-text_w/2):y=((main_h-text_h)/2):enable='${betweenText}'" -codec:a copy composed-test-${tmpCounter+1}.mp4`);
+        textFilters.push(`ffmpeg -i composed-test-${fileCounter}.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='${tts.displayTest}':shadowcolor='black':shadowx=2:shadowy=2:fontcolor=white:fontsize=72:x=(main_w/2-text_w/2):y=((main_h-text_h)/2):enable='${betweenText}'" ${codec} composed-test-${fileCounter+1}.mp4`);
         // textFilters.push({
         //     filter: 'drawtext',
         //     options: {
@@ -63,7 +66,7 @@ context.stories.forEach((val, idx)=>{
         //         }
         // });
         filterStart += tts.duration/1000;
-        tmpCounter++;
+        fileCounter++;
     });
 });
 
@@ -95,7 +98,7 @@ audioCommand.mergeToFile(fullAudioFile).on('end',()=>{
     // then save once all fitlers have been applied
     command
     .addInput(`${inboxDir}/test/full-audio.wav`)
-    .saveToFile(`${inboxDir}/test/composed-test.mp4`)
+    .saveToFile(`${inboxDir}/test/composed-test-0.mp4`)
     .on('end', ()=> {
         console.log('done with phase 1');
     });
