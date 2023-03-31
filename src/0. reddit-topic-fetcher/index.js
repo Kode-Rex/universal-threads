@@ -146,6 +146,7 @@ function processSelection(num, posts){
                     seq: storySeq,
                     fullText:generateAudioText(comment.body.split(' ')),
                     filePath: '',
+                    storyFilePath: '',
                     duration: 0,
                     ttsSegments: []
                 };
