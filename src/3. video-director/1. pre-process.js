@@ -12,7 +12,7 @@ const textFilters = [];
 let filterStart = (context.duration / 1000); // allow for image to show in intro
 // title, then each story's full text
 const audioCommand = ffmpeg();
-const fullAudioFile = `${inboxDir}/test/full-audio.wav`;
+const fullAudioFile = `${inboxDir}/test/audio/full-audio.wav`;
 let fileCounter = 0;
 
 audioCommand.mergeAdd(context.filePath);
@@ -23,7 +23,7 @@ context.stories.forEach((val, idx)=>{
     const codec = `-codec:a copy`; // -codec:v libx264 -crf 18 -preset slow -vf
     // pushing story # text
     let betweenText = `between(t,${filterStart+0.25},${filterStart+(val.duration/1000)})`
-    textFilters.push(`ffmpeg -i composed-test-${fileCounter}.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='Story ${val.seq+1}':fontcolor=white:fontsize=72:box=1:boxcolor=blue@0.75:boxborderw=10:x=(main_w/2-text_w/2):y=50:enable='${betweenText}'" ${codec} composed-test-${fileCounter+1}.mp4`);
+    textFilters.push(`ffmpeg -i video/composed-test-${fileCounter}.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='Story ${val.seq+1}':fontcolor=white:fontsize=72:box=1:boxcolor=blue@0.75:boxborderw=10:x=(main_w/2-text_w/2):y=50:enable='${betweenText}'" ${codec} video/composed-test-${fileCounter+1}.mp4`);
     fileCounter++;
     // textFilters.push({
     //     filter: 'drawtext',
@@ -54,7 +54,7 @@ context.stories.forEach((val, idx)=>{
     // there is a like 25 ms drift per fragement
     val.ttsSegments.forEach((tts, idx)=>{
         betweenText = `between(t,${filterStart},${filterStart+(tts.duration/1000)})`
-        textFilters.push(`ffmpeg -i composed-test-${fileCounter}.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='${tts.displayTest.replace(/:/g, '').replace(/'/g,' ')}':shadowcolor='black':shadowx=2:shadowy=2:fontcolor=white:fontsize=72:x=(main_w/2-text_w/2):y=((main_h-text_h)/2):enable='${betweenText}'" ${codec} composed-test-${fileCounter+1}.mp4`);
+        textFilters.push(`ffmpeg -i video/composed-test-${fileCounter}.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='${tts.displayText.replace(/:/g, '').replace(/'/g,' ')}':shadowcolor='black':shadowx=2:shadowy=2:fontcolor=white:fontsize=72:x=(main_w/2-text_w/2):y=((main_h-text_h)/2):enable='${betweenText}'" ${codec} video/composed-test-${fileCounter+1}.mp4`);
         // textFilters.push({
         //     filter: 'drawtext',
         //     options: {
@@ -70,6 +70,7 @@ context.stories.forEach((val, idx)=>{
         //             enable:betweenText
         //         }
         // });
+        
         filterStart += tts.duration/1000;
         fileCounter++;
     });
@@ -85,9 +86,9 @@ audioCommand.mergeToFile(fullAudioFile).on('end',()=>{
     //  write out the commands to a run.sh to apply fitlers
     
     //fs.unlinkSync(`${inboxDir}/test/text-filters.sh`);
-    fs.writeFileSync(`${inboxDir}/test/apply-text-filters.sh`, '#!/bin/sh\n');
+    fs.writeFileSync(`${inboxDir}/test/video/apply-text-filters.sh`, '#!/bin/sh\n');
     textFilters.forEach((filter)=>{
-        fs.appendFileSync(`${inboxDir}/test/apply-text-filters.sh`, `${filter}\n`);
+        fs.appendFileSync(`${inboxDir}/test/video/apply-text-filters.sh`, `${filter}\n`);
     });
      // -------- SET TEXT AND ADD AUDIO TRACK ---------
     const command = ffmpeg();
@@ -101,9 +102,11 @@ audioCommand.mergeToFile(fullAudioFile).on('end',()=>{
 
     // todo : create a memory stream with base video, process filters on it 
     // then save once all fitlers have been applied
+    fs.mkdirSync(`${inboxDir}/test/video/`);
+
     command
-    .addInput(`${inboxDir}/test/full-audio.wav`)
-    .saveToFile(`${inboxDir}/test/composed-test-0.mp4`)
+    .addInput(`${inboxDir}/test/audio/full-audio.wav`)
+    .saveToFile(`${inboxDir}/test/video/composed-test-0.mp4`)
     .on('end', ()=> {
         console.log('done with phase 1');
     });

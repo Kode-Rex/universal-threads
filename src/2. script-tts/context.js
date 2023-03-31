@@ -71,28 +71,6 @@ function processThreadStories(thread){
             await synthesizeText(story.fullText + "...", storyFilePath);
             story.fullTextPath = storyFilePath;
 
-            // for(var ttsIdx = 0; ttsIdx < story.ttsSegments.length; ttsIdx++){
-            //     let ttsSnippet = story.ttsSegments[ttsIdx];
-            //     let filePath = `${dirPath}/${padLeadingZeros(story.seq, leadingZeros)}-${padLeadingZeros(ttsSnippet.seq,leadingZeros)}.wav`
-                
-            //     if(ttsSnippet.text){
-            //         await synthesizeText(ttsSnippet.text, filePath);
-
-            //         let trimEnd = false;
-            //         let trimStart = false;
-
-            //         if(ttsIdx < (story.ttsSegments.length - 1) ){
-            //             trimEnd = true;
-            //         }
-
-            //         if(ttsIdx > 0){
-            //             trimStart = true;
-            //         }
-
-            //         ttsSnippet = processDuration(filePath, ttsSnippet, trimEnd, trimStart);
-            //     } 
-            //     story.ttsSegments[ttsIdx] = ttsSnippet;  
-            // }
             thread.stories[storyIdx] = story;
         }
 
@@ -110,7 +88,6 @@ function processThreadStories(thread){
     });
 }
 
-const duration = require("wav-audio-length").default;
 const readline = require('readline');
 
 let r1 = readline.createInterface({
