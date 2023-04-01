@@ -82,7 +82,6 @@ audioCommand.mergeToFile(fullAudioFile).on('end',()=>{
     .addInput(`${INBOX_DIR}/test/audio/full-audio.wav`)
     .saveToFile(`${INBOX_DIR}/test/video/composed-test-0.mp4`)
     .on('end', async ()=> {
-        // todo : now I need to send this to stt service to get word timeings
         // todo : then take those word timings and insert into the duration portion of the context to rebuild the video
         const gcsWaveFileName = `${context.id}-full-audio.wav`;
 
@@ -90,7 +89,6 @@ audioCommand.mergeToFile(fullAudioFile).on('end',()=>{
 
         const storage = new Storage();
         await storage.bucket(BUCKET_NAME).upload(`${INBOX_DIR}/test/audio/full-audio.wav`, {destination: `${gcsWaveFileName}`});
-
 
         console.log(`working on getting speach to text for timestamps: gs://universal-threads/${gcsWaveFileName}`);
 
@@ -101,16 +99,16 @@ audioCommand.mergeToFile(fullAudioFile).on('end',()=>{
         const audio = {
             uri: gcsUri,
           };
-          const config = {
+        const config = {
             enableWordTimeOffsets: true,
             encoding: 'LINEAR16',
             sampleRateHertz: 24000,
             languageCode: 'en-US',
-          };
-          const request = {
+        };
+        const request = {
             audio: audio,
             config: config,
-          };
+        };
 
         // Detects speech in the audio file. This creates a recognition job that you
         // can wait for now, or get its result later.
