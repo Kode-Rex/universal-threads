@@ -92,7 +92,7 @@ audioCommand.mergeToFile(fullAudioFile).on('end',()=>{
         await storage.bucket(BUCKET_NAME).upload(`${INBOX_DIR}/test/audio/full-audio.wav`, {destination: `${gcsWaveFileName}`});
 
 
-        console.log(`working on getting speach: gs://universal-threads/${gcsWaveFileName}`);
+        console.log(`working on getting speach to text for timestamps: gs://universal-threads/${gcsWaveFileName}`);
 
         const client = new speech.SpeechClient({
             longRunningRecognize: true
@@ -119,10 +119,7 @@ audioCommand.mergeToFile(fullAudioFile).on('end',()=>{
         const [response] = await operation.promise();
         fs.writeFileSync(`${INBOX_DIR}/test/audio/transcript.json`,JSON.stringify(response.results));
 
-        const deleteOptions = {
-            ifGenerationMatch: generationMatchPrecondition,
-        };
-        await storage.bucket(bucketName).file(fileName).delete(deleteOptions);
+        await storage.bucket(BUCKET_NAME).file(gcsWaveFileName).delete({});
         
         console.log("done!");
     });           
