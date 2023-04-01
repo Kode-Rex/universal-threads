@@ -65,12 +65,12 @@ function processThreadStories(thread){
             let story = thread.stories[storyIdx];
             let filePath = `${dirPath}/000-${story.seq}-000-story.wav`;
 
-            console.log(`Processing Story #${story.seq+1} ...`);
+            console.log(`Processing Story #${story.seq+1} ... `);
             await synthesizeText(`Story ${story.seq+1}`, filePath);
             story.storyFilePath = filePath;
 
             let storyFilePath = `${dirPath}/${padLeadingZeros(story.seq, leadingZeros)}-fullText.wav`
-            await synthesizeText(story.fullText + "...", storyFilePath);
+            await synthesizeText(`${story.fullText} ... `, storyFilePath);
             story.filePath = storyFilePath;
 
             thread.stories[storyIdx] = story;
