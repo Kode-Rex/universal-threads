@@ -7,6 +7,78 @@ const transcriptionPath = `${inboxDir}/test/audio/transcript.json`;
 const context = JSON.parse(fs.readFileSync(contextPath));
 const transcript = JSON.parse(fs.readFileSync(transcriptionPath));
 
+// flatten the trascript to process words from context against it
+let transcriptFragments = [];
+transcript.forEach(element => {
+    element.alternatives.forEach(alt=>{
+        transcriptFragments = transcriptFragments.concat(alt.words);
+    });
+}); 
+
+// ----- Process Title ------
+const titleFirstLast = extractStartAndEndWords(context.title);
+const titleFMatch = findTranscriptMatch(titleFirstLast.first, 0);
+const titleLMatch = findTranscriptMatch(titleFirstLast.last, titleFMatch.foundAt);
+let searchIdx = titleLMatch.foundAt;
+
+context.stories.forEach((story, idx)=>{
+    // todo : now get wav duration for story XXX becuase it is deterministic 
+    // todo : then write the story xxx text on the screen
+    story.ttsSegments.forEach((tts, idx)=>{
+        let firstLast = extractStartAndEndWords(tts.text);
+        let fMatch = findTranscriptMatch(firstLast.first, searchIdx);
+        searchIdx = fMatch.foundAt;
+        let lMatch = findTranscriptMatch(firstLast.last, searchIdx);
+        searchIdx = lMatch.foundAt;
+        // todo : write ffmpeg command to sh file
+    });
+});
+
+
+function findTranscriptMatch(term, startFrom) {
+
+    for(let idx = startFrom; idx < transcriptFragments.length; idx++){
+        let elm = transcriptFragments[idx];
+
+        if (elm.word === term) {
+            return {
+                start: elm.startTime,
+                end: elm.endTime,
+                foundAt : idx
+            };
+        }
+    }
+}
+
+
+function extractStartAndEndWords(fragement){
+    const result = {};
+
+    const parts = fragement.split(' ');
+
+    if(parts.length === 0){
+        return result;
+    }
+    
+    result.first = keepOnlyAlphaNumeric(parts[0]);
+
+    if(parts.legnth === 1){
+        return result;
+    }
+
+    result.last = keepOnlyAlphaNumeric(parts[parts.length - 1]);
+
+    return result;
+}
+
+function keepOnlyAlphaNumeric(text){
+    return text.replace(/[\W_]+/g,' ').trim().toLowerCase();
+}
+
+//----------------
+
+
+
 // todo : write out a apply-text-filter.sh file with all the commands to apply the text (like v1 pre-process.js file)
 // todo : to achieve this we need to read the transcript.json and context.json files using the timestamps to mark start and ends for the text
 // todo : along the way we want to ensure that the text is two lines per and centered. (I would like to batch these up to 4 - 6 lines per command)
