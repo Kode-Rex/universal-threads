@@ -21,16 +21,19 @@ const titleFMatch = findTranscriptMatch(titleFirstLast.first, 0);
 const titleLMatch = findTranscriptMatch(titleFirstLast.last, titleFMatch.foundAt);
 let searchIdx = titleLMatch.foundAt;
 
+// ----- Process Storys --------
 context.stories.forEach((story, idx)=>{
     // todo : now get wav duration for story XXX becuase it is deterministic 
-    // todo : then write the story xxx text on the screen
+    let storyLength = processDuration(story.storyFilePath);
+
+    // todo : then write the story xxx ffmpeg to the sh file
     story.ttsSegments.forEach((tts, idx)=>{
         let firstLast = extractStartAndEndWords(tts.text);
         let fMatch = findTranscriptMatch(firstLast.first, searchIdx);
         searchIdx = fMatch.foundAt;
         let lMatch = findTranscriptMatch(firstLast.last, searchIdx);
         searchIdx = lMatch.foundAt;
-        // todo : write ffmpeg command to sh file
+        // todo : write ffmpeg command to the sh file
     });
 });
 
@@ -75,9 +78,12 @@ function keepOnlyAlphaNumeric(text){
     return text.replace(/[\W_]+/g,' ').trim().toLowerCase();
 }
 
-//----------------
-
-
+function processDuration(filePatht) {
+    const buffer = fs.readFileSync(filePath);
+    const dur = parseInt(duration(buffer)*1000); // ms
+    
+    return dur;
+}
 
 // todo : write out a apply-text-filter.sh file with all the commands to apply the text (like v1 pre-process.js file)
 // todo : to achieve this we need to read the transcript.json and context.json files using the timestamps to mark start and ends for the text
