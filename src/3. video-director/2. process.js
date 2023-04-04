@@ -26,7 +26,7 @@ context.stories.forEach((story, idx)=>{
     // todo : now get wav duration for story XXX becuase it is deterministic 
     let storyLength = processDuration(story.storyFilePath);
 
-    // todo : then write the story xxx ffmpeg to the sh file
+    // todo : then write the story xxx ffmpeg to the sh file - q off the prev end time for start
     story.ttsSegments.forEach((tts, idx)=>{
         let firstLast = extractStartAndEndWords(tts.text);
         let fMatch = findTranscriptMatch(firstLast.first, searchIdx);
