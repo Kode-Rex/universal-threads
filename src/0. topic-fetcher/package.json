@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "bad-words": "^3.0.4",
+    "puppeteer": "^19.8.3",
+    "selenium-webdriver": "^4.8.2",
     "snoowrap": "^1.23.0"
   },
   "devDependencies": {
