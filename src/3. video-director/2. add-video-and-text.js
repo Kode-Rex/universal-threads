@@ -1,4 +1,6 @@
 const fs = require('fs');
+const FfmpegTextBuffer = require('./ffmpeg-buffer.js');
+
 
 const inboxDir = "../../inbox";
 const contextPath = `${inboxDir}/test/context.json`;
@@ -15,11 +17,19 @@ transcript.forEach(element => {
     });
 }); 
 
+// todo : extract specific path into inbox
+const shFile = `${inboxDir}/test/apply-text-filters.sh`;
+const vidFile = `${inboxDir}/test/06-pro-shredder.mp4`;
+const ffmpegTextBatchSize = 10; // how many text command to batch at once
+const workingBuffer = new FfmpegTextBuffer(ffmpegTextBatchSize, shFile, vidFile);
+
 // ----- Process Title ------
 const titleFirstLast = extractStartAndEndWords(context.title);
 const titleFMatch = findTranscriptMatch(titleFirstLast.first, 0);
 const titleLMatch = findTranscriptMatch(titleFirstLast.last, titleFMatch.foundAt);
 let searchIdx = titleLMatch.foundAt;
+
+// todo : write out ffmpeg command for title image
 
 // ----- Process story's --------
 context.stories.forEach((story, idx)=>{
@@ -33,9 +43,14 @@ context.stories.forEach((story, idx)=>{
         searchIdx = fMatch.foundAt;
         let lMatch = findTranscriptMatch(firstLast.last, searchIdx);
         searchIdx = lMatch.foundAt;
-        // todo : write ffmpeg command to the sh file, I would like to batch these to avoid long processing times. 
+        // todo : batch text into batches of 10 commands, then flush to .sh file
 
-
+        // let betweenText = `between(t,${filterStart+0.25},${filterStart+(val.duration/1000)})`
+        // textFilters.push(`ffmpeg -i video/composed-test-${fileCounter}.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='Story ${val.seq+1}':fontcolor=white:fontsize=72:box=1:boxcolor=blue@0.75:boxborderw=10:x=(main_w/2-text_w/2):y=50:enable='${betweenText}'" ${codec} video/composed-test-${fileCounter+1}.mp4`);
+            // centering text with multiple draw text instances - I should be able to chain all the tts segments with this to bring down processing times
+    
+        // how to combine commands!
+        // ffmpeg -f lavfi -i color=c=green:s=320x240:d=10 -vf "drawtext=fontfile=/path/to/font.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h-text_h-text_h)/2:text='Stack',drawtext=fontfile=/path/to/font.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h+text_h)/2:text='Overflow'" output.mp4
 
     });
 });
