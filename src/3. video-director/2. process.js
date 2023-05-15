@@ -7,7 +7,7 @@ const transcriptionPath = `${inboxDir}/test/audio/transcript.json`;
 const context = JSON.parse(fs.readFileSync(contextPath));
 const transcript = JSON.parse(fs.readFileSync(transcriptionPath));
 
-// flatten the trascript to process words from context against it
+// flatten the transcript to process words from context against it
 let transcriptFragments = [];
 transcript.forEach(element => {
     element.alternatives.forEach(alt=>{
@@ -21,9 +21,9 @@ const titleFMatch = findTranscriptMatch(titleFirstLast.first, 0);
 const titleLMatch = findTranscriptMatch(titleFirstLast.last, titleFMatch.foundAt);
 let searchIdx = titleLMatch.foundAt;
 
-// ----- Process Storys --------
+// ----- Process story's --------
 context.stories.forEach((story, idx)=>{
-    // todo : now get wav duration for story XXX becuase it is deterministic 
+    // todo : now get wav duration for story XXX because it is deterministic 
     let storyLength = processDuration(story.storyFilePath);
 
     // todo : then write the story xxx ffmpeg to the sh file - q off the prev end time for start
@@ -33,7 +33,10 @@ context.stories.forEach((story, idx)=>{
         searchIdx = fMatch.foundAt;
         let lMatch = findTranscriptMatch(firstLast.last, searchIdx);
         searchIdx = lMatch.foundAt;
-        // todo : write ffmpeg command to the sh file
+        // todo : write ffmpeg command to the sh file, I would like to batch these to avoid long processing times. 
+
+
+
     });
 });
 
@@ -54,10 +57,10 @@ function findTranscriptMatch(term, startFrom) {
 }
 
 
-function extractStartAndEndWords(fragement){
+function extractStartAndEndWords(fragment){
     const result = {};
 
-    const parts = fragement.split(' ');
+    const parts = fragment.split(' ');
 
     if(parts.length === 0){
         return result;
@@ -65,7 +68,7 @@ function extractStartAndEndWords(fragement){
     
     result.first = keepOnlyAlphaNumeric(parts[0]);
 
-    if(parts.legnth === 1){
+    if(parts.length === 1){
         return result;
     }
 

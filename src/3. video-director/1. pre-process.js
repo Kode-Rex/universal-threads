@@ -33,25 +33,25 @@ context.stories.forEach((val, idx)=>{
     // todo: use -codec:a copy - for preview mode instead of -codec:v libx264 -crf 0 -preset veryslow
     const codec = `-codec:a copy`; // -codec:v libx264 -crf 18 -preset slow -vf
     // pushing story # text
-    let betweenText = `between(t,${filterStart+0.25},${filterStart+(val.duration/1000)})`
-    textFilters.push(`ffmpeg -i video/composed-test-${fileCounter}.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='Story ${val.seq+1}':fontcolor=white:fontsize=72:box=1:boxcolor=blue@0.75:boxborderw=10:x=(main_w/2-text_w/2):y=50:enable='${betweenText}'" ${codec} video/composed-test-${fileCounter+1}.mp4`);
-    fileCounter++;
-    filterStart += ((val.duration/1000));
+    // let betweenText = `between(t,${filterStart+0.25},${filterStart+(val.duration/1000)})`
+    // textFilters.push(`ffmpeg -i video/composed-test-${fileCounter}.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='Story ${val.seq+1}':fontcolor=white:fontsize=72:box=1:boxcolor=blue@0.75:boxborderw=10:x=(main_w/2-text_w/2):y=50:enable='${betweenText}'" ${codec} video/composed-test-${fileCounter+1}.mp4`);
+    // fileCounter++;
+    // filterStart += ((val.duration/1000));
     audioCommand.mergeAdd(val.filePath); // story text
 
 
     // centering text with multiple draw text instances - I should be able to chain all the tts segments with this to bring down processing times
     // ffmpeg -f lavfi -i color=c=green:s=320x240:d=10 -vf "drawtext=fontfile=/path/to/font.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h-text_h-text_h)/2:text='Stack',drawtext=fontfile=/path/to/font.ttf:fontsize=30:fontcolor=white:x=(w-text_w)/2:y=(h+text_h)/2:text='Overflow'" output.mp4
     
-    // there is a like 25 ms drift per fragement
-    val.ttsSegments.forEach((tts, idx)=>{
-        console.log(`tts segment [${idx}]`);
-        betweenText = `between(t,${filterStart},${filterStart+(tts.duration/1000)})`
-        textFilters.push(`ffmpeg -i video/composed-test-${fileCounter}.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='${tts.displayText.replace(/:/g, '').replace(/'/g,' ')}':shadowcolor='black':shadowx=2:shadowy=2:fontcolor=white:fontsize=72:x=(main_w/2-text_w/2):y=((main_h-text_h)/2):enable='${betweenText}'" ${codec} video/composed-test-${fileCounter+1}.mp4`);
+    // there is a like 25 ms drift per fragment
+    // val.ttsSegments.forEach((tts, idx)=>{
+    //     console.log(`tts segment [${idx}]`);
+    //     betweenText = `between(t,${filterStart},${filterStart+(tts.duration/1000)})`
+    //     textFilters.push(`ffmpeg -i video/composed-test-${fileCounter}.mp4 -vf "drawtext=fontfile=BebasNeue-Regular.ttf:text='${tts.displayText.replace(/:/g, '').replace(/'/g,' ')}':shadowcolor='black':shadowx=2:shadowy=2:fontcolor=white:fontsize=72:x=(main_w/2-text_w/2):y=((main_h-text_h)/2):enable='${betweenText}'" ${codec} video/composed-test-${fileCounter+1}.mp4`);
 
-        filterStart += tts.duration/1000;
-        fileCounter++;
-    });
+    //     filterStart += tts.duration/1000;
+    //     fileCounter++;
+    // });
 });
 
 

@@ -70,7 +70,7 @@ function processThreadStories(thread){
             story.storyFilePath = filePath;
 
             let storyFilePath = `${dirPath}/${padLeadingZeros(story.seq, leadingZeros)}-fullText.wav`
-            await synthesizeText(`${story.fullText} ... `, storyFilePath);
+            await synthesizeText(`${story.fullText}`, storyFilePath);
             story.filePath = storyFilePath;
 
             thread.stories[storyIdx] = story;
