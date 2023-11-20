@@ -1,12 +1,27 @@
 import requests
 import cv2
 import os
+import time
+import random
 
-TWITCH_CLIENT_ID = 'YOUR_TWITCH_CLIENT_ID'
-TWITCH_OAUTH_TOKEN = 'YOUR_TWITCH_OAUTH_TOKEN'
+TWITCH_CLIENT_ID = '7vmqj3990p573f5phaibfp6q96jfpi'
+TWITCH_CLIENT_SECRET = 'oqulqvlbieaju06eqydz9d1r4m7agg'
+
+def get_twitch_oauth_token(client_id, client_secret):
+    url = 'https://id.twitch.tv/oauth2/token'
+    payload = {
+        'client_id': client_id,
+        'client_secret': client_secret,
+        'grant_type': 'client_credentials'
+    }
+    response = requests.post(url, data=payload)
+    return response.json().get('access_token')
+
+# Get OAuth token and update headers
+TWITCH_OAUTH_TOKEN = get_twitch_oauth_token(TWITCH_CLIENT_ID, TWITCH_CLIENT_SECRET)
 HEADERS = {
     'Client-ID': TWITCH_CLIENT_ID,
-    'Authorization': f"Bearer {TWITCH_OAUTH_TOKEN}"
+    'Authorization': f'Bearer {TWITCH_OAUTH_TOKEN}'
 }
 
 def get_game_ids(game_names):
@@ -21,7 +36,7 @@ def get_game_ids(game_names):
 
     return game_ids
 
-def fetch_random_twitch_clips_for_games(game_ids):
+def fetch_random_twitch_clips_for_games(game_ids, min_duration=120, max_duration=500):
     clips = []
     
     for game_id in game_ids:
@@ -31,9 +46,13 @@ def fetch_random_twitch_clips_for_games(game_ids):
         }
         response = requests.get('https://api.twitch.tv/helix/clips', headers=HEADERS, params=params)
         data = response.json()
-        clips.extend(data['data'])
+
+        for clip in data['data']:
+            if min_duration <= clip['duration'] <= max_duration:
+                clips.append(clip)
 
     return clips
+
 
 def contains_face(video_path):
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
@@ -71,13 +90,31 @@ if __name__ == "__main__":
                   "Stardew Valley", "Undertale", "Spiritfarer", 
                   "Rocket League", "Abzu", "Firewatch", "Planet Coaster", 
                   "Two Point Hospital", "Portal", "Portal 2", "Super Mario Odyssey"]
+
     game_ids = get_game_ids(game_names)
     clips = fetch_random_twitch_clips_for_games(game_ids)
 
+    videos_without_faces = 0
+    total_processed_videos = 0 
     for clip in clips:
+        if videos_without_faces >= 20:
+            break
+
         video_path = download_clip(clip)
         
-        if contains_face(video_path):
+        if not contains_face(video_path):
+            print(f"No faces detected in clip: {clip['id']}")
+            videos_without_faces += 1
+        else:
             print(f"Faces detected in clip: {clip['id']}")
-            os.remove(video_path)  # Optionally, remove the video if it contains a face
+            os.remove(video_path)  # Remove the video if it contains a face
 
+        total_processed_videos += 1
+
+        # Pause every 5 videos
+        if total_processed_videos % 5 == 0:
+            pause_duration = random.randint(10, 30)
+            print(f"Pausing for {pause_duration} seconds...")
+            time.sleep(pause_duration)
+
+    print(f"Downloaded {videos_without_faces} videos without faces.")
