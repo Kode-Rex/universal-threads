@@ -1,4 +1,4 @@
-# fact-emporium README.md
+# Universal Threads README.md
 
 1. Scrape content from /r/askredit via api
    - https://www.reddit.com/r/AskReddit/comments/11vmkfc/americans_what_do_eurpoeans_have_everyday_that/ 
